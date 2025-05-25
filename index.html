@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anadolu Mitoloji Haritası</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .ic-anadolu-highlight {
+      position: absolute;
+      left: 580px;
+      top: 330px;
+      width: 457.62px;
+      height: 105.56px;
+      background-color: rgba(255, 0, 0, 0.4);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: none; /* İç Anadolu highlight'ı gizlendi */
+    }
+    
+    .ic-anadolu-highlight.show {
+      opacity: 1;
+    }
+    
+    #ic-anadolu-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 0.5px; /* 2px'den 1.5px daha yukarı alındı */
+      left: -2px; /* 2 piksel sola kaydırıldı */
+    }
+    
+    .coordinate-box {
+      position: absolute;
+      left: 602.977905351563px;
+      top: 225px;
+      width: 827.622009199218px;
+      height: 105px;
+      background-color: rgba(255, 0, 0, 0.4);
+      border: 2px solid red;
+      pointer-events: none;
+      z-index: 100;
+      transform: rotate(4deg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: none; /* Coordinate box gizlendi */
+    }
+    
+    .coordinate-box.show {
+      opacity: 1;
+    }
+    
+    #marmara-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #marmara-overlay.show {
+      opacity: 1;
+    }
+    
+    #karadeniz-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #karadeniz-overlay.show {
+      opacity: 1;
+    }
+    
+    #guneydogu-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #guneydogu-overlay.show {
+      opacity: 1;
+    }
+    
+    #dogu-anadolu-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: -1px;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #dogu-anadolu-overlay.show {
+      opacity: 1;
+    }
+    
+    #akdeniz-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      position: absolute;
+      top: 1px;
+      left: -2px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    #akdeniz-overlay.show {
+      opacity: 1;
+    }
+
+    /* PSD and Texture styles */
+    .psd {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 19;
+      pointer-events: none;
+      background-image: url("assets/your-psd-export.png");
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: lighten;
+      opacity: 0.8;
+    }
+
+    .Textura_linda {
+      background-image: url("assets/Textura linda.png");
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 18;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: lighten;
+      opacity: 0.6;
+    }
+
+    /* Dil seçici stilleri */
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(139, 111, 71, 0.30);
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border: 1px solid rgba(139, 111, 71, 0.30);
+      font-family: 'Cormorant', serif;
+    }
+
+    .language-selector select {
+      padding: 5px 10px;
+      border: 1px solid rgba(139, 111, 71, 0.30);
+      border-radius: 3px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: rgba(139, 111, 71, 0.30);
+      color: #fff;
+      transition: all 0.3s ease;
+      font-family: 'Cormorant', serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 5px center;
+      background-size: 20px;
+      padding-right: 30px;
+    }
+
+    .language-selector select:hover {
+      border-color: #6d5839;
+      background-color: rgba(122, 98, 64, 0.30);
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      border-color: #6d5839;
+      box-shadow: 0 0 5px rgba(139, 111, 71, 0.5);
+    }
+
+    /* Region selection text styles */
+    .region-select-text {
+      position: fixed;
+      bottom: 100px;
+      left: 52%;
+      transform: translateX(-50%);
+      color: rgba(0, 0, 0, 0.8);
+      font-family: 'Cormorant', serif;
+      font-size: 48px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+      z-index: 1000;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Region Selection Text -->
+  <div class="region-select-text" id="regionSelectText">Bir bölge seçiniz</div>
+
+  <!-- Dil Seçici -->
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="tr">Türkçe</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+      <option value="bs">Bosanski</option>
+      <option value="es">Español</option>
+    </select>
+  </div>
+
+  <!-- Video Arka Planı -->
+  <video id="background-video" autoplay loop muted>
+    <source src="video/backgroundVideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Untitled Video with Blend Effect -->
+  <video id="untitled-video" autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 9998; pointer-events: none; mix-blend-mode: screen; opacity: 0.6; transform: scale(1.1);">
+    <source src="assets/Untitled video - Made with Clipchamp.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Görsel Efekt Videosu -->
+  <video id="effect-video" autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 9999; pointer-events: none; mix-blend-mode: screen; opacity: 0.8;">
+    <source src="assets/fog.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Rüzgar Sesi -->
+  <audio id="wind-sound" preload="auto">
+    <source src="assets/wind.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Kapı Sesi -->
+  <audio id="door-sound" preload="auto">
+    <source src="assets/door-sound.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Seçim Sesi -->
+  <audio id="select-sound" preload="auto">
+    <source src="assets/select.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Menü Barı -->
+  <div class="menu-bar" id="menuBar">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- Yan Menü -->
+  <nav class="side-menu" id="sideMenu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="about.html">Ekibimiz</a>
+  </nav>
+
+  <!-- Harita Container -->
+  <div class="map-container">
+    <div class="map-wrapper">
+      <img src="assets/turkiye.png" usemap="#bolgeler" id="turkiye-haritasi" alt="Türkiye Haritası">
+      <img src="assets/ege.png" class="bolge-overlay" id="ege-overlay" alt="Ege Bölgesi">
+      <img src="assets/marmara.png" class="bolge-overlay" id="marmara-overlay" alt="Marmara Bölgesi">
+      <img src="assets/icanadolu.png" class="bolge-overlay" id="ic-anadolu-overlay" alt="İç Anadolu Bölgesi">
+      <img src="assets/karadeniz.png" class="bolge-overlay" id="karadeniz-overlay" alt="Karadeniz Bölgesi">
+      <img src="assets/guneydogu-anadolu.png" class="bolge-overlay" id="guneydogu-overlay" alt="Güneydoğu Anadolu Bölgesi">
+      <img src="assets/dogu.png" class="bolge-overlay" id="dogu-anadolu-overlay" alt="Doğu Anadolu Bölgesi">
+      <div class="ic-anadolu-highlight" id="ic-anadolu-highlight"></div>
+      <div class="coordinate-box" id="coordinate-box"></div>
+      <img src="assets/akdeniz.png" class="bolge-overlay" id="akdeniz-overlay" alt="Akdeniz Bölgesi">
+      <div class="psd"></div>
+      <div class="Textura_linda"></div>
+      <map name="bolgeler">
+        <area 
+          shape="poly" 
+          coords="58.9,474, 244.5,474, 430.1,474, 430.1,410.5, 430.1,347, 244.5,347, 58.9,347, 58.9,410.5" 
+          href="#" 
+          alt="Ege Bölgesi"
+          id="ege-bolge"
+          onmouseover="highlightRegion('ege')"
+          onmouseout="unhighlightRegion('ege')"
+        >
+        <area 
+          shape="rect" 
+          coords="150.53,122.80,550.53,331.45" 
+          href="#" 
+          alt="Marmara Bölgesi"
+          id="marmara-bolge"
+          onmouseover="highlightMarmara()"
+          onmouseout="unhighlightMarmara()"
+        >
+        <area 
+          shape="rect" 
+          coords="580,330,1037.62,435.56" 
+          href="#" 
+          alt="İç Anadolu Bölgesi"
+          id="ic-anadolu-bolge"
+          onmouseover="highlightIcAnadolu()"
+          onmouseout="unhighlightIcAnadolu()"
+        >
+        <area 
+          shape="rect" 
+          coords="603,225,1430,330" 
+          href="#" 
+          alt="Karadeniz Bölgesi"
+          id="karadeniz-bolge"
+          onmouseover="highlightKaradeniz()"
+          onmouseout="unhighlightKaradeniz()"
+        >
+        <area 
+          shape="poly" 
+          coords="1139,446,1658,446,1658,619,1139,619" 
+          href="#" 
+          alt="Güneydoğu Anadolu Bölgesi"
+          id="guneydogu-bolge"
+          onmouseover="highlightGuneydogu()"
+          onmouseout="unhighlightGuneydogu()"
+        >
+        <area 
+          shape="rect" 
+          coords="1100,355,1744,453" 
+          href="#" 
+          alt="Doğu Anadolu Bölgesi"
+          id="dogu-anadolu-bolge"
+          onmouseover="highlightDoguAnadolu()"
+          onmouseout="unhighlightDoguAnadolu()"
+        >
+        <area 
+          shape="rect" 
+          coords="141,516,1091,681" 
+          href="#" 
+          alt="Akdeniz Bölgesi"
+          id="akdeniz-bolge"
+          onmouseover="highlightAkdeniz()"
+          onmouseout="unhighlightAkdeniz()"
+        >
+      </map>
+    </div>
+  </div>
+
+  <script>
+    // Ses ayarları
+    const windSound = document.getElementById('wind-sound');
+    const doorSound = document.getElementById('door-sound');
+    const selectSound = document.getElementById('select-sound');
+    windSound.volume = 0.3;
+    doorSound.volume = 0.5;
+    selectSound.volume = 0.5;
+    windSound.loop = true;
+
+    // Ses süresini al
+    let selectSoundDuration = 0;
+    selectSound.addEventListener('loadedmetadata', function() {
+      selectSoundDuration = selectSound.duration * 1000; // milisaniyeye çevir
+      console.log('Seçim sesi süresi:', selectSoundDuration, 'ms');
+    });
+
+    // Ses çalma fonksiyonu
+    function playDoorSound() {
+      try {
+        doorSound.currentTime = 0;
+        let playPromise = doorSound.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(_ => {
+            // Ses başarıyla çalındı
+            console.log('Kapı sesi çalınıyor');
+          })
+          .catch(error => {
+            console.log('Ses çalma hatası:', error);
+          });
+        }
+      } catch (error) {
+        console.log('Ses çalma hatası:', error);
+      }
+    }
+
+    // Seçim sesi çalma fonksiyonu
+    function playSelectSound() {
+      try {
+        selectSound.currentTime = 0;
+        selectSound.play().catch(error => {
+          console.log('Seçim sesi çalma hatası:', error);
+        });
+      } catch (error) {
+        console.log('Seçim sesi çalma hatası:', error);
+      }
+    }
+
+    // Efekt videosu kontrolü
+    const effectVideo = document.getElementById('effect-video');
+    
+    // Video yüklendiğinde
+    effectVideo.addEventListener('loadeddata', function() {
+      console.log('Efekt videosu yüklendi');
+    });
+
+    // Video oynatılmaya başladığında
+    effectVideo.addEventListener('play', function() {
+      console.log('Efekt videosu oynatılıyor');
+    });
+
+    // Video hata verdiğinde
+    effectVideo.addEventListener('error', function(e) {
+      console.error('Video hatası:', e);
+    });
+
+    // Video durumunu kontrol et
+    function checkVideoStatus() {
+      console.log('Video durumu:', {
+        'Yükleniyor': effectVideo.readyState,
+        'Oynatılıyor': !effectVideo.paused,
+        'Ses': effectVideo.muted ? 'Kapalı' : 'Açık',
+        'Döngü': effectVideo.loop ? 'Açık' : 'Kapalı',
+        'Kaynak': effectVideo.currentSrc
+      });
+    }
+
+    // Sayfa yüklendiğinde kontrol et
+    window.addEventListener('load', function() {
+      checkVideoStatus();
+    });
+
+    // Sayfa yüklendiğinde sesi başlat
+    document.addEventListener('DOMContentLoaded', function() {
+      // Kullanıcı etkileşimi gerektiğinden, ilk tıklamada sesi başlat
+      document.body.addEventListener('click', function initAudio() {
+        windSound.play();
+        // İlk tıklamadan sonra event listener'ı kaldır
+        document.body.removeEventListener('click', initAudio);
+      }, { once: true });
+    });
+
+    // Dil değiştirme işlemleri
+    const translations = {
+      tr: {
+        title: "Anadolu Mitoloji Haritası",
+        home: "Ana Sayfa",
+        about: "Ekibimiz",
+        menu: {
+          home: "Ana Sayfa",
+          about: "Ekibimiz"
+        },
+        regions: {
+          ege: "Ege Bölgesi",
+          marmara: "Marmara Bölgesi",
+          icAnadolu: "İç Anadolu Bölgesi",
+          karadeniz: "Karadeniz Bölgesi",
+          guneydogu: "Güneydoğu Anadolu Bölgesi",
+          doguAnadolu: "Doğu Anadolu Bölgesi",
+          akdeniz: "Akdeniz Bölgesi"
+        },
+        videoNotSupported: "Tarayıcınız video etiketini desteklemiyor.",
+        audioNotSupported: "Tarayıcınız ses öğesini desteklemiyor.",
+        selectRegion: "BİR BÖLGE SEÇİNİZ"
+      },
+      en: {
+        title: "Anatolian Mythology Map",
+        home: "Home",
+        about: "Our Team",
+        menu: {
+          home: "Home",
+          about: "Our Team"
+        },
+        regions: {
+          ege: "Aegean Region",
+          marmara: "Marmara Region",
+          icAnadolu: "Central Anatolia Region",
+          karadeniz: "Black Sea Region",
+          guneydogu: "Southeastern Anatolia Region",
+          doguAnadolu: "Eastern Anatolia Region",
+          akdeniz: "Mediterranean Region"
+        },
+        videoNotSupported: "Your browser does not support the video tag.",
+        audioNotSupported: "Your browser does not support the audio element.",
+        selectRegion: "SELECT A REGION"
+      },
+      de: {
+        title: "Anatolische Mythologie Karte",
+        home: "Startseite",
+        about: "Unser Team",
+        menu: {
+          home: "Startseite",
+          about: "Unser Team"
+        },
+        regions: {
+          ege: "Ägäis-Region",
+          marmara: "Marmara-Region",
+          icAnadolu: "Zentralanatolien-Region",
+          karadeniz: "Schwarzmeer-Region",
+          guneydogu: "Südostanatolien-Region",
+          doguAnadolu: "Ostanatolien-Region",
+          akdeniz: "Mittelmeer-Region"
+        },
+        videoNotSupported: "Ihr Browser unterstützt das Video-Tag nicht.",
+        audioNotSupported: "Ihr Browser unterstützt das Audio-Element nicht.",
+        selectRegion: "WÄHLEN SIE EINE REGION"
+      },
+      bs: {
+        title: "Karta Anadolske Mitologije",
+        home: "Početna",
+        about: "Naš Tim",
+        menu: {
+          home: "Početna",
+          about: "Naš Tim"
+        },
+        regions: {
+          ege: "Egejska Regija",
+          marmara: "Marmara Regija",
+          icAnadolu: "Centralna Anadolija Regija",
+          karadeniz: "Crnomorska Regija",
+          guneydogu: "Jugoistočna Anadolija Regija",
+          doguAnadolu: "Istočna Anadolija Regija",
+          akdeniz: "Mediteranska Regija"
+        },
+        videoNotSupported: "Vaš pretraživač ne podržava video oznaku.",
+        audioNotSupported: "Vaš pretraživač ne podržava audio element.",
+        selectRegion: "ODABERITE REGIJU"
+      },
+      es: {
+        title: "Mapa de Mitología de Anatolia",
+        home: "Inicio",
+        about: "Nuestro Equipo",
+        menu: {
+          home: "Inicio",
+          about: "Nuestro Equipo"
+        },
+        regions: {
+          ege: "Región del Egeo",
+          marmara: "Región de Mármara",
+          icAnadolu: "Región de Anatolia Central",
+          karadeniz: "Región del Mar Negro",
+          guneydogu: "Región de Anatolia Suroriental",
+          doguAnadolu: "Región de Anatolia Oriental",
+          akdeniz: "Región Mediterránea"
+        },
+        videoNotSupported: "Tu navegador no soporta la etiqueta de video.",
+        audioNotSupported: "Tu navegador no soporta el elemento de audio.",
+        selectRegion: "SELECCIONE UNA REGIÓN"
+      }
+    };
+
+    function changeLanguage(lang) {
+      // Sayfa başlığını güncelle
+      document.title = translations[lang].title;
+      
+      // Menü linklerini güncelle
+      const menuLinks = document.querySelectorAll('.side-menu a');
+      menuLinks[0].textContent = translations[lang].menu.home;
+      menuLinks[1].textContent = translations[lang].menu.about;
+      
+      // Harita bölgelerini güncelle
+      const areas = document.querySelectorAll('area');
+      areas.forEach(area => {
+        const regionId = area.id.split('-')[0];
+        if (translations[lang].regions[regionId]) {
+          area.alt = translations[lang].regions[regionId];
+        }
+      });
+
+      // Video ve ses destek mesajlarını güncelle
+      const videoElements = document.querySelectorAll('video');
+      videoElements.forEach(video => {
+        video.querySelector('source').nextSibling.textContent = translations[lang].videoNotSupported;
+      });
+
+      const audioElements = document.querySelectorAll('audio');
+      audioElements.forEach(audio => {
+        audio.querySelector('source').nextSibling.textContent = translations[lang].audioNotSupported;
+      });
+
+      // Bölge seçim metnini güncelle
+      document.getElementById('regionSelectText').textContent = translations[lang].selectRegion;
+
+      // Dil tercihini localStorage'a kaydet
+      localStorage.setItem('selectedLanguage', lang);
+    }
+
+    // Sayfa yüklendiğinde son seçilen dili veya varsayılan dili ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
+      document.getElementById('languageSelect').value = savedLanguage;
+      changeLanguage(savedLanguage);
+    });
+
+    // Menü işlemleri
+    const menuBar = document.getElementById('menuBar');
+    const sideMenu = document.getElementById('sideMenu');
+    
+    menuBar.addEventListener('click', function() {
+      sideMenu.classList.toggle('open');
+      menuBar.classList.toggle('open');
+    });
+
+    // Harita işlemleri
+    const harita = document.getElementById('turkiye-haritasi');
+    const egeOverlay = document.getElementById('ege-overlay');
+    const marmaraOverlay = document.getElementById('marmara-overlay');
+    const icAnadoluOverlay = document.getElementById('ic-anadolu-overlay');
+    const karadenizOverlay = document.getElementById('karadeniz-overlay');
+    const guneydoguOverlay = document.getElementById('guneydogu-overlay');
+    const doguAnadoluOverlay = document.getElementById('dogu-anadolu-overlay');
+    const icAnadoluHighlight = document.getElementById('ic-anadolu-highlight');
+
+    function highlightRegion(region) {
+      if (region === 'ege') {
+        egeOverlay.classList.add('show');
+        playDoorSound();
+      }
+    }
+
+    function unhighlightRegion(region) {
+      if (region === 'ege') {
+        egeOverlay.classList.remove('show');
+      }
+    }
+    
+    function highlightMarmara() {
+      marmaraOverlay.classList.add('show');
+      playDoorSound();
+    }
+    
+    function unhighlightMarmara() {
+      marmaraOverlay.classList.remove('show');
+    }
+    
+    function highlightIcAnadolu() {
+      icAnadoluOverlay.classList.add('show');
+      playDoorSound();
+    }
+    
+    function unhighlightIcAnadolu() {
+      icAnadoluOverlay.classList.remove('show');
+    }
+    
+    function highlightKaradeniz() {
+      karadenizOverlay.classList.add('show');
+      playDoorSound();
+    }
+    
+    function unhighlightKaradeniz() {
+      karadenizOverlay.classList.remove('show');
+    }
+    
+    function highlightGuneydogu() {
+      guneydoguOverlay.classList.add('show');
+      playDoorSound();
+    }
+    
+    function unhighlightGuneydogu() {
+      guneydoguOverlay.classList.remove('show');
+    }
+
+    const coordinateBox = document.getElementById('coordinate-box');
+    
+    function showCoordinateBox() {
+      coordinateBox.classList.add('show');
+    }
+    
+    function hideCoordinateBox() {
+      coordinateBox.classList.remove('show');
+    }
+    
+    function highlightDoguAnadolu() {
+      doguAnadoluOverlay.classList.add('show');
+      playDoorSound();
+      console.log('Doğu Anadolu hover active');
+    }
+    
+    function unhighlightDoguAnadolu() {
+      doguAnadoluOverlay.classList.remove('show');
+      console.log('Doğu Anadolu hover inactive');
+    }
+
+    function highlightAkdeniz() {
+      const akdenizOverlay = document.getElementById('akdeniz-overlay');
+      akdenizOverlay.classList.add('show');
+      playDoorSound();
+      console.log('Akdeniz hover active');
+    }
+    
+    function unhighlightAkdeniz() {
+      const akdenizOverlay = document.getElementById('akdeniz-overlay');
+      akdenizOverlay.classList.remove('show');
+      console.log('Akdeniz hover inactive');
+    }
+
+    // Harita yüklendiğinde boyutları ayarla
+    harita.onload = function() {
+      const rect = harita.getBoundingClientRect();
+      console.log('Harita boyutları:', {
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        left: rect.left
+      });
+    };
+
+    // Koordinat testi için
+    harita.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const x = Math.round(e.clientX - rect.left);
+      const y = Math.round(e.clientY - rect.top);
+      console.log(`Tıklanan koordinat: X: ${x}, Y: ${y}`);
+    });
+
+    // Bölge tıklama işleyicileri
+    document.getElementById('ege-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'ege.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('marmara-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'marmara.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('karadeniz-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'karadeniz.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('guneydogu-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'guneydogu.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('dogu-anadolu-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'dogu-anadolu.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('akdeniz-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'akdeniz.html';
+      }, selectSoundDuration);
+    });
+
+    document.getElementById('ic-anadolu-bolge').addEventListener('click', function(e) {
+      e.preventDefault();
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'ic-anadolu.html';
+      }, selectSoundDuration);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akdeniz - Anadolu Mitoloji Haritası</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* PSD and Texture styles */
+        .psd {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            background-image: url("assets/your-psd-export.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.8;
+        }
+
+        .Textura_linda {
+            background-image: url("assets/Textura linda.png");
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 18;
+            pointer-events: none;
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.6;
+        }
+
+        /* Yeni Photoshop içeriği için stil */
+        .photoshop-content {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+            background-image: url("assets/your-photoshop-content.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: normal;
+            opacity: 1;
+        }
+
+            /* Afrodit stili */
+    .kibele {
+            background-image: url("assets/sahmaran.png");
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 91px;
+            top: 97px;
+            z-index: 3;
+        }
+
+        /* SVG container */
+        .kibele-svg-container {
+            width: 1200px;
+            height: 400px;
+            position: absolute;
+            left: 995.427px;
+            top: 76.168px;
+            z-index: 6;
+            overflow: visible;
+        }
+
+        /* Akdeniz Bölgesi yazı stili */
+        .ic_anadolu_bolgesi {
+            font-size: 16.667px;
+            font-family: "Cinzel", serif;
+            font-weight: 500;
+            color: rgb(0, 0, 0);
+            line-height: 1.2;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            z-index: 7;
+        }
+
+        /* Şahmeran açıklama stili */
+        .kybele_aciklama {
+            font-size: 22px;
+            font-family: "Book Antiqua";
+            color: rgb(95, 108, 116);
+            line-height: 1.5;
+            text-align: right;
+            position: absolute;
+            left: 800px;
+            top: 415px;
+            z-index: 2;
+            max-width: 1000px;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+
+        /* Ana menü butonu stili */
+        .back-to-menu {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            padding: 15px 25px;
+            background-color: rgba(94, 107, 78, 0.9);
+            color: #fff;
+            text-decoration: none;
+            font-family: "Cinzel", serif;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            mix-blend-mode: screen;
+            filter: brightness(1.2) contrast(0.85) saturate(1.4);
+        }
+
+        .back-to-menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .back-to-menu:hover {
+            background-color: rgba(94, 107, 78, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            mix-blend-mode: normal;
+            filter: brightness(1.3) contrast(0.9) saturate(1.5);
+        }
+
+        /* Smoke video overlay stili */
+        .smoke-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 21;
+            mix-blend-mode: screen;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        .smoke-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Clipchamp video overlay stili */
+        .clipchamp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 22;
+            mix-blend-mode: screen;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .clipchamp-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Dil seçici stilleri */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(139, 111, 71, 0.30);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            font-family: 'Cormorant', serif;
+        }
+
+        .language-selector select {
+            padding: 5px 10px;
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: rgba(139, 111, 71, 0.30);
+            color: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant', serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+            background-size: 20px;
+            padding-right: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dil Seçici -->
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="bs">Bosanski</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <!-- Video Arka Planı -->
+    <video id="background-video" autoplay loop muted>
+        <source src="video/backgroundVideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Smoke Video Overlay -->
+    <div class="smoke-overlay">
+        <video autoplay loop muted>
+            <source src="./assets/fog.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Clipchamp Video Overlay -->
+    <div class="clipchamp-overlay">
+        <video autoplay loop muted>
+            <source src="assets/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Ana Menü Butonu -->
+    <a href="index.html" class="back-to-menu" id="backToMenuBtn">Ana Menüye Dön</a>
+    <audio id="hoverSound" src="assets/door-sound.wav" preload="auto"></audio>
+    <audio id="clickSound" src="assets/select.wav" preload="auto"></audio>
+
+    <!-- PSD ve Texture Overlay'leri -->
+    <div class="psd"></div>
+    <div class="Textura_linda"></div>
+    
+    <!-- Photoshop İçeriği -->
+    <div class="photoshop-content"></div>
+
+    <!-- Şahmeran Görseli -->
+    <img src="assets/sahmaran.png" alt="Şahmaran">
+
+    <!-- Şahmeran SVG ve Yazı -->
+    <div class="kibele-svg-container">
+        <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="1200px" height="400px"
+            viewBox="0 0 1200 400"
+            preserveAspectRatio="xMinYMin meet">
+            <defs>
+                <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="1200px" height="400px">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="3.162" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="atop" in="floodOut" in2="blurOut" />
+                    <feComponentTransfer><feFuncA type="linear" slope="1"/></feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="Filter_1">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="2.646" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="out" in="floodOut" in2="blurOut" result="compOut" />
+                    <feComposite operator="in" in="compOut" in2="SourceAlpha" />
+                    <feComponentTransfer><feFuncA type="linear" slope="0.26"/></feComponentTransfer>
+                    <feBlend mode="multiply" in2="SourceGraphic" />
+                </filter>
+            </defs>
+            <g filter="url(#Filter_0)">
+                <g filter="url(#Filter_1)">
+                    <text kerning="auto" font-family="Myriad Pro" fill="rgb(0, 0, 0)" transform="matrix( 1.59382435226013, -5.77341209490659e-17, 0, 1.59382435226013, 50, 280.989319425298)" font-size="224.167px"><tspan font-size="224.167px" font-family="Edwardian Script ITC" fill="#5E6B4E">S</tspan><tspan font-size="80.448px" font-family="Book Antiqua" font-style="italic" fill="#5E6B4E">ahmeran</tspan></text>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Şahmeran Açıklama -->
+    <div class="kybele_aciklama">Şahmaran, Türk ve Ortadoğu mitolojisinde yer alan, yılanların kraliçesi olarak bilinen efsanevi bir varlıktır. İsmi Farsça kökenlidir: "şah" (kral) ve "mar" (yılan) kelimelerinin birleşiminden oluşur. Genellikle üst kısmı güzel bir kadın, alt kısmı ise yılan bedeni şeklinde betimlenir. Bilgeliği, şefkati ve iyileştirici gücüyle tanınan Şahmaran, yeraltında yılanlarla birlikte yaşar ve sırlarını sadece güvenilir insanlarla paylaşır. En bilinen efsane, Şahmaran'ın Tarsus'ta (Mersin) yaşadığına dairdir. Halk anlatılarına göre, Cemşab adlı bir genç, tesadüfen Şahmaran'ın mağarasını keşfeder ve onun güvenini kazanır. Ancak yıllar sonra Cemşab'ın sırrı ortaya çıkar, Şahmaran ihanet sonucu öldürülür ama bilgeliği ve bedeni tıbbın temelini oluşturur. Bu yüzden özellikle halk hekimliğinde ve kadınlar arasında kutsal bir figür olarak saygı görür. Şahmaran anlatıları Güneydoğu Anadolu bölgesinde, özellikle Mardin, Tarsus, Diyarbakır ve Hatay gibi şehirlerde güçlü bir şekilde yaşamaya devam eder. Türk halk kültüründe derin izler bırakmış, efsanesi masallara, halılara ve duvar resimlerine kadar yansımıştır. Şahmaran, Anadolu'nun kadim bilgeliğini ve doğayla uyum içinde yaşam anlayışını simgeler.</div>
+
+    <!-- Akdeniz Bölgesi Yazısı -->
+    <div class="ic_anadolu_bolgesi">AKDENİZ BÖLGESİ</div>
+
+    <!-- Menü Barı -->
+    <div class="menu-bar" id="menuBar">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Yan Menü -->
+    <nav class="side-menu" id="sideMenu">
+        <a href="index.html" id="homeLink">Ana Sayfa</a>
+        <a href="about.html" id="aboutLink">Ekibimiz</a>
+    </nav>
+
+    <script>
+        // Çeviriler
+        const translations = {
+            tr: {
+                title: "Akdeniz - Anadolu Mitoloji Haritası",
+                regionTitle: "AKDENİZ BÖLGESİ",
+                backToMenu: "Ana Menüye Dön",
+                menu: {
+                    home: "Ana Sayfa",
+                    about: "Ekibimiz"
+                },
+                goddessName: "Sahmeran",
+                goddessDescription: "Şahmaran, Türk ve Ortadoğu mitolojisinde yer alan, yılanların kraliçesi olarak bilinen efsanevi bir varlıktır. İsmi Farsça kökenlidir: \"şah\" (kral) ve \"mar\" (yılan) kelimelerinin birleşiminden oluşur. Genellikle üst kısmı güzel bir kadın, alt kısmı ise yılan bedeni şeklinde betimlenir. Bilgeliği, şefkati ve iyileştirici gücüyle tanınan Şahmaran, yeraltında yılanlarla birlikte yaşar ve sırlarını sadece güvenilir insanlarla paylaşır. En bilinen efsane, Şahmaran'ın Tarsus'ta (Mersin) yaşadığına dairdir. Halk anlatılarına göre, Cemşab adlı bir genç, tesadüfen Şahmaran'ın mağarasını keşfeder ve onun güvenini kazanır. Ancak yıllar sonra Cemşab'ın sırrı ortaya çıkar, Şahmaran ihanet sonucu öldürülür ama bilgeliği ve bedeni tıbbın temelini oluşturur. Bu yüzden özellikle halk hekimliğinde ve kadınlar arasında kutsal bir figür olarak saygı görür. Şahmaran anlatıları Güneydoğu Anadolu bölgesinde, özellikle Mardin, Tarsus, Diyarbakır ve Hatay gibi şehirlerde güçlü bir şekilde yaşamaya devam eder. Türk halk kültüründe derin izler bırakmış, efsanesi masallara, halılara ve duvar resimlerine kadar yansımıştır. Şahmaran, Anadolu'nun kadim bilgeliğini ve doğayla uyum içinde yaşam anlayışını simgeler.",
+                videoNotSupported: "Tarayıcınız video etiketini desteklemiyor."
+            },
+            en: {
+                title: "Mediterranean - Anatolian Mythology Map",
+                regionTitle: "MEDITERRANEAN REGION",
+                backToMenu: "Back to Main Menu",
+                menu: {
+                    home: "Home",
+                    about: "Our Team"
+                },
+                goddessName: "Shahmaran",
+                goddessDescription: "Shahmaran is a legendary being in Turkish and Middle Eastern mythology, known as the queen of serpents. Her name is of Persian origin, derived from the combination of \"shah\" (king) and \"mar\" (snake). She is typically depicted as having the upper body of a beautiful woman and the lower body of a serpent. Renowned for her wisdom, compassion, and healing powers, Shahmaran lives underground with the snakes and shares her secrets only with trustworthy individuals.\n\nThe most famous legend is that Shahmaran lived in Tarsus (Mersin). According to folk tales, a young man named Cemşab accidentally discovers Shahmaran's cave and gains her trust. However, years later, Cemşab's secret is revealed, and Shahmaran is killed due to betrayal. Despite her death, her wisdom and body lay the foundation for medicine. This is why she is revered, especially in folk medicine and among women, as a sacred figure.\n\nShahmaran legends continue to thrive in the Southeastern Anatolia region, particularly in cities like Mardin, Tarsus, Diyarbakır, and Hatay. The myth has left deep traces in Turkish folk culture, reflected in fairy tales, carpets, and wall paintings. Shahmaran symbolizes the ancient wisdom of Anatolia and the way of life in harmony with nature.",
+                videoNotSupported: "Your browser does not support the video tag."
+            },
+            de: {
+                title: "Mittelmeer - Anatolische Mythologie Karte",
+                regionTitle: "MITTELMEER-REGION",
+                backToMenu: "Zurück zum Hauptmenü",
+                menu: {
+                    home: "Startseite",
+                    about: "Unser Team"
+                },
+                goddessName: "Schahmaran",
+                goddessDescription: "Sahmaran ist ein mythisches Wesen der türkischen und nahöstlichen Mythologie, bekannt als Königin der Schlangen. Der Name stammt aus dem Persischen: \"şah\" (König) und \"mar\" (Schlange). Sie wird meist mit dem Oberkörper einer schönen Frau und dem Unterkörper einer Schlange dargestellt. Şahmaran ist für ihre Weisheit, Sanftmut und heilende Kraft bekannt. Sie lebt unter der Erde mit Schlangen und teilt ihr Wissen nur mit vertrauenswürdigen Menschen.\n\nDie bekannteste Legende besagt, dass Şahmaran in Tarsus (Mersin) lebte. Der junge Cemşab entdeckt zufällig ihre Höhle und gewinnt ihr Vertrauen. Doch Jahre später wird ihr Geheimnis verraten, Şahmaran wird durch Verrat getötet, aber ihr Körper und Wissen bilden die Grundlage der Volksmedizin. Deshalb wird sie besonders unter Heilkundigen und Frauen als heilige Figur verehrt.\n\nErzählungen über Şahmaran sind vor allem im Südosten Anatoliens lebendig, insbesondere in Mardin, Tarsus, Diyarbakır und Hatay. Ihre Legende hat tiefe Spuren in der türkischen und kurdischen Volkskultur hinterlassen und spiegelt sich in Märchen, Teppichen und Wandgemälden wider. Şahmaran symbolisiert die alte Weisheit Anatoliens und ein Leben im Einklang mit der Natur.",
+                videoNotSupported: "Ihr Browser unterstützt das Video-Tag nicht."
+            },
+            bs: {
+                title: "Mediteran - Karta Anadolske Mitologije",
+                regionTitle: "MEDITERRANSKA REGIJA",
+                backToMenu: "Povratak na Glavni Meni",
+                menu: {
+                    home: "Početna",
+                    about: "Naš Tim"
+                },
+                goddessName: "Šahmaran",
+                goddessDescription: "Šahmaran je legendarno biće u turskoj i bliskoistočnoj mitologiji, poznata kao kraljica zmija. Njeno ime potiče iz perzijskog jezika, kombinacijom riječi \"šah\" (kralj) i \"mar\" (zmija). Obično se prikazuje s gornjim dijelom tijela predivne žene i donjim dijelom zmije. Poznata je po svojoj mudrosti, samilosti i iscjeliteljskim moćima. Šahmaran živi pod zemljom zajedno sa zmijama i svoje tajne dijeli samo s povjerljivim osobama.\n\nNajpoznatija legenda kaže da je Šahmaran živjela u Tarsu (Mersin). Prema narodnim pričama, mladić po imenu Džemšab slučajno otkriva Šahmaraninu pećinu i stiče njeno povjerenje. Međutim, godinama kasnije, Džemšab otkriva njenu tajnu i Šahmaran biva izdata i ubijena. Uprkos njenoj smrti, njena mudrost i tijelo postaju temelj medicine. Zbog toga se posebno poštuje u narodnoj medicini i među ženama kao sveto biće.\n\nLegende o Šahmarani i danas su žive u jugoistočnim dijelovima Anadolije, posebno u gradovima poput Mardina, Tarsa, Dijarbakira i Hataya. Ovaj mit ostavio je duboke tragove u turskoj narodnoj kulturi, što se može vidjeti u bajkama, tepisima i zidnim slikama. Šahmaran simbolizira drevnu mudrost Anadolije i život u skladu s prirodom.",
+                videoNotSupported: "Vaš pretraživač ne podržava video oznaku."
+            },
+            es: {
+                title: "Mediterráneo - Mapa de Mitología de Anatolia",
+                regionTitle: "REGIÓN MEDITERRÁNEA",
+                backToMenu: "Volver al Menú Principal",
+                menu: {
+                    home: "Inicio",
+                    about: "Nuestro Equipo"
+                },
+                goddessName: "Shahmaran",
+                goddessDescription: "Şahmaran es una criatura mítica de la mitología turca y del Medio Oriente, conocida como la reina de las serpientes. Su nombre proviene del persa: \"şah\" (rey) y \"mar\" (serpiente). Generalmente se la representa con la parte superior del cuerpo como una bella mujer y la inferior como una serpiente. Es conocida por su sabiduría, compasión y poder curativo. Vive bajo tierra con las serpientes y comparte sus secretos solo con personas dignas de confianza.\n\nLa leyenda más conocida cuenta que Şahmaran vivía en Tarsus (Mersin). Un joven llamado Cemşab descubre su cueva por casualidad y gana su confianza. Años después, su secreto se revela, Şahmaran es traicionada y asesinada, pero su cuerpo y conocimiento se convierten en la base de la medicina popular. Por ello, es especialmente venerada en la medicina tradicional y entre las mujeres.\n\nLas historias de Şahmaran siguen vivas en el sureste de Anatolia, especialmente en Mardin, Tarsus, Diyarbakır y Hatay. Ha dejado profundas huellas tanto en la cultura popular turca como en la kurda, reflejándose en cuentos, alfombras y murales. Şahmaran simboliza la antigua sabiduría de Anatolia y una forma de vida en armonía con la naturaleza.",
+                videoNotSupported: "Tu navegador no soporta la etiqueta de video."
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Sayfa başlığını güncelle
+            document.title = translations[lang].title;
+            
+            // Bölge başlığını güncelle
+            document.querySelector('.ic_anadolu_bolgesi').textContent = translations[lang].regionTitle;
+            
+            // Tanrıça açıklamasını güncelle
+            document.querySelector('.kybele_aciklama').textContent = translations[lang].goddessDescription;
+            
+            // Ana menü butonunu güncelle
+            document.getElementById('backToMenuBtn').textContent = translations[lang].backToMenu;
+            
+            // Yan menü linklerini güncelle
+            document.getElementById('homeLink').textContent = translations[lang].menu.home;
+            document.getElementById('aboutLink').textContent = translations[lang].menu.about;
+            
+            // Video destek mesajlarını güncelle
+            const videoElements = document.querySelectorAll('video');
+            videoElements.forEach(video => {
+                video.querySelector('source').nextSibling.textContent = translations[lang].videoNotSupported;
+            });
+
+            // Tanrıça ismini güncelle
+            const goddessName = translations[lang].goddessName;
+            const firstLetter = document.querySelector('tspan[font-family="Edwardian Script ITC"]');
+            const restOfName = document.querySelector('tspan[font-family="Book Antiqua"]');
+            
+            if (firstLetter && restOfName) {
+                firstLetter.textContent = goddessName[0];
+                restOfName.textContent = goddessName.slice(1);
+            }
+            
+            // Dil tercihini localStorage'a kaydet
+            localStorage.setItem('selectedLanguage', lang);
+        }
+
+        // Sayfa yüklendiğinde son seçilen dili veya varsayılan dili ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
+            document.getElementById('languageSelect').value = savedLanguage;
+            changeLanguage(savedLanguage);
+        });
+
+        // Hamburger menü açma/kapama
+        const menuBar = document.getElementById('menuBar');
+        const sideMenu = document.getElementById('sideMenu');
+        menuBar.addEventListener('click', function() {
+            sideMenu.classList.toggle('open');
+            menuBar.classList.toggle('open');
+        });
+
+        const backToMenuBtn = document.getElementById('backToMenuBtn');
+        const hoverSound = document.getElementById('hoverSound');
+        const clickSound = document.getElementById('clickSound');
+
+        backToMenuBtn.addEventListener('mouseenter', () => {
+            hoverSound.currentTime = 0;
+            hoverSound.play();
+        });
+
+        backToMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            clickSound.currentTime = 0;
+            clickSound.play();
+            // Sesin süresi kadar bekle, sonra yönlendir
+            const delay = (clickSound.duration && !isNaN(clickSound.duration)) ? clickSound.duration * 1000 : 400;
+            setTimeout(() => {
+                window.location.href = backToMenuBtn.href;
+            }, delay);
+        });
+    </script>
+</body>
+</html> 

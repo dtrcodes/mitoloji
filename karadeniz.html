@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karadeniz - Anadolu Mitoloji Haritası</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* PSD and Texture styles */
+        .psd {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            background-image: url("assets/your-psd-export.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.8;
+        }
+
+        .Textura_linda {
+            background-image: url("assets/Textura linda.png");
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 18;
+            pointer-events: none;
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.6;
+        }
+
+        /* Yeni Photoshop içeriği için stil */
+        .photoshop-content {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+            background-image: url("assets/your-photoshop-content.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: normal;
+            opacity: 1;
+        }
+
+            /* Afrodit stili */
+    .kibele {
+            background-image: url("assets/amazon.png");
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 91px;
+            top: 97px;
+            z-index: 3;
+        }
+
+        /* SVG container */
+        .kibele-svg-container {
+            width: 2000px;
+            height: 400px;
+            position: absolute;
+            left: 820.427px;
+            top: 76.168px;
+            z-index: 6;
+            overflow: visible;
+        }
+
+        /* Marmara Bölgesi yazı stili */
+        .ic_anadolu_bolgesi {
+            font-size: 16.667px;
+            font-family: "Cinzel", serif;
+            font-weight: 500;
+            color: rgb(0, 0, 0);
+            line-height: 1.2;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            z-index: 7;
+        }
+
+        /* Şahmeran açıklama stili */
+        .kybele_aciklama {
+            font-size: 22px;
+            font-family: "Book Antiqua";
+            color: rgb(95, 108, 116);
+            line-height: 1.5;
+            text-align: right;
+            position: absolute;
+            left: 650px;
+            top: 415px;
+            z-index: 2;
+            max-width: 1200px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        /* Ana menü butonu stili */
+        .back-to-menu {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            padding: 15px 25px;
+            background-color: rgba(94, 107, 78, 0.9);
+            color: #fff;
+            text-decoration: none;
+            font-family: "Cinzel", serif;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            mix-blend-mode: screen;
+            filter: brightness(1.2) contrast(0.85) saturate(1.4);
+        }
+
+        .back-to-menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .back-to-menu:hover {
+            background-color: rgba(94, 107, 78, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            mix-blend-mode: normal;
+            filter: brightness(1.3) contrast(0.9) saturate(1.5);
+        }
+
+        /* Smoke video overlay stili */
+        .smoke-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 21;
+            mix-blend-mode: screen;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        .smoke-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Clipchamp video overlay stili */
+        .clipchamp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 22;
+            mix-blend-mode: screen;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .clipchamp-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Dil seçici stilleri */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(139, 111, 71, 0.30);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            font-family: 'Cormorant', serif;
+        }
+
+        .language-selector select {
+            padding: 5px 10px;
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: rgba(139, 111, 71, 0.30);
+            color: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant', serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+            background-size: 20px;
+            padding-right: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menü Barı -->
+    <div class="menu-bar" id="menuBar">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Dil Seçici -->
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="bs">Bosanski</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <!-- Video Arka Planı -->
+    <video id="background-video" autoplay loop muted>
+        <source src="video/backgroundVideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Smoke Video Overlay -->
+    <div class="smoke-overlay">
+        <video autoplay loop muted>
+            <source src="./assets/fog.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Clipchamp Video Overlay -->
+    <div class="clipchamp-overlay">
+        <video autoplay loop muted>
+            <source src="assets/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Ana Menü Butonu -->
+    <a href="index.html" class="back-to-menu" id="backToMenuBtn">Ana Menüye Dön</a>
+    <audio id="hoverSound" src="assets/door-sound.wav" preload="auto"></audio>
+    <audio id="clickSound" src="assets/select.wav" preload="auto"></audio>
+
+    <!-- PSD ve Texture Overlay'leri -->
+    <div class="psd"></div>
+    <div class="Textura_linda"></div>
+    
+    <!-- Photoshop İçeriği -->
+    <div class="photoshop-content"></div>
+
+    <!-- Demeter Görseli -->
+    <img src="assets/amazon.png" alt="Amazon">
+
+    <!-- Şahmeran SVG ve Yazı -->
+    <div class="kibele-svg-container">
+        <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="2000px" height="400px"
+            viewBox="0 0 2000 400"
+            preserveAspectRatio="xMinYMin meet">
+            <defs>
+                <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="2000px" height="400px">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="3.162" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="atop" in="floodOut" in2="blurOut" />
+                    <feComponentTransfer><feFuncA type="linear" slope="1"/></feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="Filter_1">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="2.646" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="out" in="floodOut" in2="blurOut" result="compOut" />
+                    <feComposite operator="in" in="compOut" in2="SourceAlpha" />
+                    <feComponentTransfer><feFuncA type="linear" slope="0.26"/></feComponentTransfer>
+                    <feBlend mode="multiply" in2="SourceGraphic" />
+                </filter>
+            </defs>
+            <g filter="url(#Filter_0)">
+                <g filter="url(#Filter_1)">
+                    <text kerning="auto" font-family="Myriad Pro" fill="rgb(0, 0, 0)" transform="matrix( 1.59382435226013, -5.77341209490659e-17, 0, 1.59382435226013, 55, 280.989319425298)" font-size="224.167px"><tspan font-size="224.167px" font-family="Edwardian Script ITC" fill="#5E6B4E">A</tspan><tspan font-size="80.448px" font-family="Book Antiqua" font-style="italic" fill="#5E6B4E">mazonlar</tspan></text>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Demeter Açıklama -->
+    <div class="kybele_aciklama">Amazonlar, Antik Yunan mitolojisinde savaşçı kadınlar olarak bilinen efsanevi bir halktır. Yunan kaynaklarında, Amazonlar genellikle erkeklerle savaşan, güçlü ve bağımsız bir toplumun üyeleri olarak tasvir edilirler. Genellikle okçuluk, süvari savaşçılığı ve savaş sanatlarında ustalaşmışlardır. Amazonlar, Yunanlılar tarafından, kadınların geleneksel rollerinin ötesinde güçlü birer figür olarak görülmüş ve bazen barbar olarak betimlenmişlerdir. En bilinen Amazon kraliçesi Penthesilea, Truva Savaşı'na katılan ve Achilles tarafından öldürülen bir savaşçıdır. Bir diğer ünlü Amazon, Hippolyta'dır ve Herkül'ün on iki görevinden birini yerine getirirken, Amazonların kraliçesi ile karşılaşır.
+Amazonların, Anadolu'nun kuzeydoğusunda, özellikle Amasya, Sinop, Samsun gibi bölgelerde yaşadığına dair pek çok mitolojik anlatı vardır. Amasya ve çevresi, Amazonlar'ın yaşadığı yer olarak anılır. Bu bölgedeki efsaneler, Amazonların topluca yaşadığı yerler olarak gösterilen Amazonya adını taşır. Ayrıca Amazonların sıkça savaştığı ve Yunan mitolojisinde saygı duyulan halklarla olan çatışmaları, kültürel anlamda büyük bir etki yaratmıştır.
+Amazonlar, kadın savaşçı figürleri ve özgürlükleriyle, tarihteki birçok kültürde ve günümüz popüler kültüründe cesaret ve gücü simgeler. Onlar, kadının gücünü ve savaşçı kimliğini temsil eden mitolojik bir halk olarak daima dikkat çekmiştir.</div>
+
+    <!-- Karadeniz Bölgesi Yazısı -->
+    <div class="ic_anadolu_bolgesi">KARADENİZ BÖLGESİ</div>
+
+    <!-- Yan Menü -->
+    <nav class="side-menu" id="sideMenu">
+        <a href="index.html" id="homeLink">Ana Sayfa</a>
+        <a href="about.html" id="aboutLink">Ekibimiz</a>
+    </nav>
+
+    <script>
+        // Çeviriler
+        const translations = {
+            tr: {
+                title: "Karadeniz Bölgesi - Anadolu Mitoloji Haritası",
+                regionTitle: "KARADENİZ BÖLGESİ",
+                goddessName: "Amazonlar",
+                goddessDescription: "Amazonlar, Antik Yunan mitolojisinde savaşçı kadınlar olarak bilinen efsanevi bir halktır. Yunan kaynaklarında, Amazonlar genellikle erkeklerle savaşan, güçlü ve bağımsız bir toplumun üyeleri olarak tasvir edilirler. Genellikle okçuluk, süvari savaşçılığı ve savaş sanatlarında ustalaşmışlardır. Amazonlar, Yunanlılar tarafından, kadınların geleneksel rollerinin ötesinde güçlü birer figür olarak görülmüş ve bazen barbar olarak betimlenmişlerdir. En bilinen Amazon kraliçesi Penthesilea, Truva Savaşı'na katılan ve Achilles tarafından öldürülen bir savaşçıdır. Bir diğer ünlü Amazon, Hippolyta'dır ve Herkül'ün on iki görevinden birini yerine getirirken, Amazonların kraliçesi ile karşılaşır. Amazonların, Anadolu'nun kuzeydoğusunda, özellikle Amasya, Sinop, Samsun gibi bölgelerde yaşadığına dair pek çok mitolojik anlatı vardır. Amasya ve çevresi, Amazonlar'ın yaşadığı yer olarak anılır. Bu bölgedeki efsaneler, Amazonların topluca yaşadığı yerler olarak gösterilen Amazonya adını taşır. Ayrıca Amazonların sıkça savaştığı ve Yunan mitolojisinde saygı duyulan halklarla olan çatışmaları, kültürel anlamda büyük bir etki yaratmıştır. Amazonlar, kadın savaşçı figürleri ve özgürlükleriyle, tarihteki birçok kültürde ve günümüz popüler kültüründe cesaret ve gücü simgeler. Onlar, kadının gücünü ve savaşçı kimliğini temsil eden mitolojik bir halk olarak daima dikkat çekmiştir.",
+                backToMenu: "Ana Menüye Dön",
+                videoNotSupported: "Tarayıcınız video etiketini desteklemiyor.",
+                menu: {
+                    home: "Ana Sayfa",
+                    about: "Ekibimiz"
+                }
+            },
+            en: {
+                title: "Black Sea Region - Anatolian Mythology Map",
+                regionTitle: "BLACK SEA REGION",
+                goddessName: "The Amazons",
+                goddessDescription: "The Amazons are a legendary people in ancient Greek mythology, known as warrior women. In Greek sources, they are often depicted as a strong and independent society that fought against men. They were typically skilled in archery, cavalry warfare, and the arts of combat. To the Greeks, the Amazons represented women who defied traditional roles, and while they were sometimes admired for their strength, they were also portrayed as barbarians. The most well-known Amazon queen is Penthesilea, a warrior who fought in the Trojan War and was killed by Achilles. Another famous Amazon, Hippolyta, appears in the myth of Heracles during one of his twelve labors.\nMany mythological tales place the Amazons in the northeastern part of Anatolia, particularly in regions such as Amasya, Sinop, and Samsun. Amasya and its surroundings are often cited as the homeland of the Amazons, with the area sometimes referred to as Amazonia in these legends. Their frequent battles with respected peoples in Greek mythology had a significant cultural impact, symbolizing the confrontation between different civilizations and ideals.\nThe Amazons, with their warrior identity and fierce independence, symbolize courage and strength in many cultures throughout history and in modern popular culture. They remain a powerful mythological people representing the strength and resilience of women.",
+                backToMenu: "Back to Main Menu",
+                videoNotSupported: "Your browser does not support the video tag.",
+                menu: {
+                    home: "Home",
+                    about: "Our Team"
+                }
+            },
+            de: {
+                title: "Schwarzmeer-Region - Anatolische Mythologie Karte",
+                regionTitle: "SCHWARZMEER-REGION",
+                goddessName: "Die Amazonen",
+                goddessDescription: "Die Amazonen sind ein mythisches Volk kriegerischer Frauen in der griechischen Mythologie. Sie werden als stark, unabhängig und kampferfahren beschrieben – insbesondere im Bogenschießen und Reiten. In griechischen Quellen galten sie oft als wild und barbarisch, weil sie traditionelle weibliche Rollen übertrafen. Die bekannteste Amazonenkönigin ist Penthesilea, die im Trojanischen Krieg kämpfte und von Achilles getötet wurde. Eine weitere berühmte Figur ist Hippolyte, der Herakles während seiner zwölf Aufgaben begegnete.\nZahlreiche Mythen erzählen, dass die Amazonen im Nordosten Anatoliens lebten – insbesondere in Regionen wie Amasya, Sinop und Samsun. Diese Gebiete wurden als das sagenhafte Amazonien bezeichnet, wo das Volk der Amazonen in Gemeinschaft lebte. Ihre häufigen Kämpfe mit hoch angesehenen Völkern in der griechischen Mythologie hatten eine große kulturelle Wirkung.\nAmazonen stehen bis heute als Symbol für weibliche Stärke, Mut und Unabhängigkeit – sowohl in historischen Kulturen als auch in der modernen Popkultur. Sie verkörpern die kämpferische Seite der Frau und faszinieren durch ihre mythologische Tiefe.",
+                backToMenu: "Zurück zum Hauptmenü",
+                videoNotSupported: "Ihr Browser unterstützt das Video-Tag nicht.",
+                menu: {
+                    home: "Startseite",
+                    about: "Unser Team"
+                }
+            },
+            bs: {
+                title: "Crnomorska Regija - Karta Anadolske Mitologije",
+                regionTitle: "CRNOMORSKA REGIJA",
+                goddessName: "Amazonke",
+                goddessDescription: "Amazonke su legendarni narod u starogrčkoj mitologiji, poznat po ratnicama. U grčkim izvorima često su prikazane kao snažno i nezavisno društvo koje se borilo protiv muškaraca. Obično su bile vrsne u streličarstvu, konjičkom ratovanju i borbenim veštinama. Za Grke su Amazonke predstavljale žene koje su se suprostavile tradicionalnim ulogama, a dok su ih ponekad divili zbog njihove snage, često su ih prikazivali kao barbare. Najpoznatija kraljica Amazonki je Penthesilea, ratnica koja je učestvovala u Trojanskom ratu i koju je ubio Ahil. Druga poznata Amazonka, Hipolita, pojavljuje se u mitu o Heraklu tokom jednog od njegovih dvanaest zadataka. Mnoga mitološka dela smeštaju Amazonke u severoistočni deo Anadolije, posebno u regione kao što su Amasya, Sinop i Samsun. Amasya i njena okolina često se pominju kao domovina Amazonki, a to područje se u tim legendama ponekad naziva Amazonija. Njihove česte borbe sa uvaženim narodima u grčkoj mitologiji imale su značajan kulturni uticaj, simbolizujući sukob između različitih civilizacija i ideala. Amazonke, sa svojim ratničkim identitetom i žestokom nezavisnošću, simbolizuju hrabrost i snagu u mnogim kulturama kroz istoriju i u modernoj popularnoj kulturi. One ostaju moćan mitološki narod koji predstavlja snagu i izdržljivost žena.",
+                backToMenu: "Povratak na Glavni Meni",
+                videoNotSupported: "Vaš pretraživač ne podržava video oznaku.",
+                menu: {
+                    home: "Početna",
+                    about: "Naš Tim"
+                }
+            },
+            es: {
+                title: "Las Amazonas - Mapa de Mitología de Anatolia",
+                regionTitle: "REGIÓN DEL MAR NEGRO",
+                goddessName: "Las Amazonas",
+                goddessDescription: "Las Amazonas son un pueblo legendario de mujeres guerreras en la mitología griega. En las fuentes griegas, las Amazonas se describen generalmente como miembros de una sociedad fuerte e independiente, que luchan contra hombres. Son expertas en el tiro con arco, la caballería y las artes marciales. En las representaciones griegas, las Amazonas a menudo aparecen como figuras poderosas que van más allá de los roles tradicionales de las mujeres, y a veces son descritas como bárbaras. La reina más conocida de las Amazonas es Penthesilea, que luchó en la Guerra de Troya y fue asesinada por Aquiles. Otra famosa amazona es Hipólita, con quien Hércules se encuentra durante uno de sus doce trabajos. Se cree que las Amazonas vivían en el noreste de Anatolia, especialmente en regiones como Amasya, Sinop y Samsun. Las leyendas locales sitúan a las Amazonas en una tierra llamada Amazonia. Además, sus constantes enfrentamientos con los pueblos que los griegos respetaban contribuyeron a su influencia cultural. Las Amazonas, como figuras guerreras y símbolos de la libertad femenina, representan el coraje y la fuerza, y han llamado la atención en diversas culturas históricas y en la cultura popular contemporánea.",
+                backToMenu: "Volver al Menú Principal",
+                videoNotSupported: "Tu navegador no soporta la etiqueta de video.",
+                menu: {
+                    home: "Inicio",
+                    about: "Nuestro Equipo"
+                }
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Sayfa başlığını güncelle
+            document.title = translations[lang].title;
+            
+            // Bölge başlığını güncelle
+            document.querySelector('.ic_anadolu_bolgesi').textContent = translations[lang].regionTitle;
+            
+            // Tanrıça açıklamasını güncelle
+            document.querySelector('.kybele_aciklama').textContent = translations[lang].goddessDescription;
+            
+            // Ana menü butonunu güncelle
+            document.getElementById('backToMenuBtn').textContent = translations[lang].backToMenu;
+            
+            // Menü öğelerini güncelle
+            document.getElementById('homeLink').textContent = translations[lang].menu.home;
+            document.getElementById('aboutLink').textContent = translations[lang].menu.about;
+            
+            // Video destek mesajlarını güncelle
+            const videoElements = document.querySelectorAll('video');
+            videoElements.forEach(video => {
+                video.querySelector('source').nextSibling.textContent = translations[lang].videoNotSupported;
+            });
+
+            // Tanrıça ismini güncelle
+            const goddessName = translations[lang].goddessName;
+            const firstLetter = document.querySelector('tspan[font-family="Edwardian Script ITC"]');
+            const restOfName = document.querySelector('tspan[font-family="Book Antiqua"]');
+            
+            if (firstLetter && restOfName) {
+                if (lang === 'es') {
+                    firstLetter.textContent = 'L';
+                    restOfName.textContent = 'as Amazonas';
+                } else {
+                    firstLetter.textContent = goddessName[0];
+                    restOfName.textContent = goddessName.slice(1);
+                }
+            }
+            
+            // Dil tercihini localStorage'a kaydet
+            localStorage.setItem('selectedLanguage', lang);
+        }
+
+        // Sayfa yüklendiğinde son seçilen dili veya varsayılan dili ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
+            document.getElementById('languageSelect').value = savedLanguage;
+            changeLanguage(savedLanguage);
+        });
+
+        // Hamburger menü açma/kapama
+        const menuBar = document.getElementById('menuBar');
+        const sideMenu = document.getElementById('sideMenu');
+        menuBar.addEventListener('click', function() {
+            sideMenu.classList.toggle('open');
+        });
+
+        const backToMenuBtn = document.getElementById('backToMenuBtn');
+        const hoverSound = document.getElementById('hoverSound');
+        const clickSound = document.getElementById('clickSound');
+
+        backToMenuBtn.addEventListener('mouseenter', () => {
+            hoverSound.currentTime = 0;
+            hoverSound.play();
+        });
+
+        backToMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            clickSound.currentTime = 0;
+            clickSound.play();
+            // Sesin süresi kadar bekle, sonra yönlendir
+            const delay = (clickSound.duration && !isNaN(clickSound.duration)) ? clickSound.duration * 1000 : 400;
+            setTimeout(() => {
+                window.location.href = backToMenuBtn.href;
+            }, delay);
+        });
+    </script>
+</body>
+</html> 

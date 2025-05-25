@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğu Anadolu - Anadolu Mitoloji Haritası</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* PSD and Texture styles */
+        .psd {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 19;
+            pointer-events: none;
+            background-image: url("assets/your-psd-export.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.8;
+        }
+
+        .Textura_linda {
+            background-image: url("assets/Textura linda.png");
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 18;
+            pointer-events: none;
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: lighten;
+            opacity: 0.6;
+        }
+
+        /* Yeni Photoshop içeriği için stil */
+        .photoshop-content {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+            background-image: url("assets/your-photoshop-content.png");
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: normal;
+            opacity: 1;
+        }
+
+            /* Afrodit stili */
+    .kibele {
+            background-image: url("assets/Arubani.png");
+            background-repeat: no-repeat;
+            position: absolute;
+            left: 91px;
+            top: 97px;
+            z-index: 3;
+        }
+
+        /* SVG container */
+        .kibele-svg-container {
+            width: 1200px;
+            height: 400px;
+            position: absolute;
+            left: 1070.427px;
+            top: 76.168px;
+            z-index: 6;
+            overflow: visible;
+        }
+
+        /* Marmara Bölgesi yazı stili */
+        .ic_anadolu_bolgesi {
+            font-size: 16.667px;
+            font-family: "Cinzel", serif;
+            font-weight: 500;
+            color: rgb(0, 0, 0);
+            line-height: 1.2;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            z-index: 7;
+        }
+
+        /* Şahmeran açıklama stili */
+        .kybele_aciklama {
+            font-size: 22px;
+            font-family: "Book Antiqua";
+            color: rgb(95, 108, 116);
+            line-height: 1.5;
+            text-align: right;
+            position: absolute;
+            left: 650px;
+            top: 395px;
+            z-index: 2;
+            max-width: 1200px;
+            padding-right: 40px;
+            padding-left: 40px;
+        }
+
+        /* Ana menü butonu stili */
+        .back-to-menu {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            padding: 15px 25px;
+            background-color: rgba(94, 107, 78, 0.9);
+            color: #fff;
+            text-decoration: none;
+            font-family: "Cinzel", serif;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            mix-blend-mode: screen;
+            filter: brightness(1.2) contrast(0.85) saturate(1.4);
+        }
+
+        .back-to-menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+
+        .back-to-menu:hover {
+            background-color: rgba(94, 107, 78, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            mix-blend-mode: normal;
+            filter: brightness(1.3) contrast(0.9) saturate(1.5);
+        }
+
+        /* Smoke video overlay stili */
+        .smoke-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 21;
+            mix-blend-mode: screen;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        .smoke-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Clipchamp video overlay stili */
+        .clipchamp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 22;
+            mix-blend-mode: screen;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .clipchamp-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        /* Dil seçici stilleri */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(139, 111, 71, 0.30);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            font-family: 'Cormorant', serif;
+        }
+
+        .language-selector select {
+            padding: 5px 10px;
+            border: 1px solid rgba(139, 111, 71, 0.30);
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: rgba(139, 111, 71, 0.30);
+            color: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant', serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+            background-size: 20px;
+            padding-right: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menü Barı -->
+    <div class="menu-bar" id="menuBar">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Dil Seçici -->
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage(this.value)">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="bs">Bosanski</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <!-- Video Arka Planı -->
+    <video id="background-video" autoplay loop muted>
+        <source src="video/backgroundVideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Smoke Video Overlay -->
+    <div class="smoke-overlay">
+        <video autoplay loop muted>
+            <source src="./assets/fog.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Clipchamp Video Overlay -->
+    <div class="clipchamp-overlay">
+        <video autoplay loop muted>
+            <source src="assets/Untitled video - Made with Clipchamp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Ana Menü Butonu -->
+    <a href="index.html" class="back-to-menu" id="backToMenuBtn">Ana Menüye Dön</a>
+    <audio id="hoverSound" src="assets/door-sound.wav" preload="auto"></audio>
+    <audio id="clickSound" src="assets/select.wav" preload="auto"></audio>
+
+    <!-- PSD ve Texture Overlay'leri -->
+    <div class="psd"></div>
+    <div class="Textura_linda"></div>
+    
+    <!-- Photoshop İçeriği -->
+    <div class="photoshop-content"></div>
+
+    <!-- Demeter Görseli -->
+    <img src="assets/Arubani.png" alt="Arubani">
+
+    <!-- Şahmeran SVG ve Yazı -->
+    <div class="kibele-svg-container">
+        <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="1200px" height="400px"
+            viewBox="0 0 1200 400"
+            preserveAspectRatio="xMinYMin meet">
+            <defs>
+                <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="1200px" height="400px">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="3.162" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="atop" in="floodOut" in2="blurOut" />
+                    <feComponentTransfer><feFuncA type="linear" slope="1"/></feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="Filter_1">
+                    <feOffset in="SourceAlpha" dx="0" dy="3" />
+                    <feGaussianBlur result="blurOut" stdDeviation="2.646" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="out" in="floodOut" in2="blurOut" result="compOut" />
+                    <feComposite operator="in" in="compOut" in2="SourceAlpha" />
+                    <feComponentTransfer><feFuncA type="linear" slope="0.26"/></feComponentTransfer>
+                    <feBlend mode="multiply" in2="SourceGraphic" />
+                </filter>
+            </defs>
+            <g filter="url(#Filter_0)">
+                <g filter="url(#Filter_1)">
+                    <text kerning="auto" font-family="Myriad Pro" fill="rgb(0, 0, 0)" transform="matrix( 1.59382435226013, -5.77341209490659e-17, 0, 1.59382435226013, 20, 280.989319425298)" font-size="224.167px"><tspan font-size="224.167px" font-family="Edwardian Script ITC" fill="#5E6B4E">A</tspan><tspan font-size="80.448px" font-family="Book Antiqua" font-style="italic" fill="#5E6B4E">rubani</tspan></text>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Demeter Açıklama -->
+    <div class="kybele_aciklama">Arubani, eski Hurri-Mitanni mitolojisinde önemli bir tanrıçadır ve genellikle aşk, güzellik, bereket ve doğurganlık ile ilişkilendirilir. Arubani, özellikle Hurrilerin ve daha sonra Urartuların inanç sisteminde önemli bir yer tutmuştur. Arubani'nin adının geçtiği metinler, onu çok yönlü ve güçlü bir figür olarak tanımlar.
+
+Arubani'nin rolü, tıpkı diğer antik tanrıçalar gibi, doğal döngülerle, tarımla ve insan yaşamıyla yakından ilişkilidir. Aşk, bereket ve doğurganlık temaları, Arubani'nin halk arasında saygı gören ve yaşamın temel yönlerini düzenleyen bir tanrıça olmasına neden olmuştur. Ayrıca, halkın sağlık ve gelişen toplumun devamı için önemli bir figürdür.
+
+Arubani'nin, özellikle doğurganlık ve bereket ile ilişkilendirilmesi, toplumsal yaşamın bu denli hayati bir parçası olduğu dönemlerde, onun tapınılmasını da önemli kılmaktaydı. Aynı zamanda yazgıyı belirleme gücüne sahip olduğu da düşünülürdü, zira eski mitolojilerde tanrıçaların hayatın çeşitli yönlerini düzenleme ve insanları koruma gibi kutsal rolleri olduğu sıkça vurgulanır.
+
+Arubani, yalnızca hurri toplumu ile değil, çevresindeki diğer kültürlerde de bilinen bir figürdür. O dönemdeki halklar, tanrıçalarına tapınırken, aynı zamanda kadınların toplumsal statüsünü ve onların doğurganlık güçlerini de yücelttikleri için Arubani'nin kültü, büyük bir toplumsal anlam taşımıştır.
+
+Bugün, Arubani'nin mitolojik figürü, özellikle Anadolu ve Mezopotamya'nın eski inançları ve tanrıça figürleri hakkında araştırmalar yapan kişiler için önemli bir araştırma konusu olmuştur.</div>
+
+    <!-- Doğu Anadolu Bölgesi Yazısı -->
+    <div class="ic_anadolu_bolgesi">DOĞU ANADOLU BÖLGESİ</div>
+
+    <!-- Yan Menü -->
+    <nav class="side-menu" id="sideMenu">
+        <a href="index.html" id="menuHome">Ana Sayfa</a>
+        <a href="about.html" id="menuAbout">Ekibimiz</a>
+    </nav>
+
+    <script>
+        // Çeviriler
+        const translations = {
+            tr: {
+                title: "Doğu Anadolu - Anadolu Mitoloji Haritası",
+                regionTitle: "DOĞU ANADOLU BÖLGESİ",
+                backToMenu: "Ana Menüye Dön",
+                menu: {
+                    home: "Ana Sayfa",
+                    about: "Ekibimiz"
+                },
+                videoNotSupported: "Tarayıcınız video etiketini desteklemiyor.",
+                goddessName: "Arubani",
+                goddessDescription: "Arubani, eski Hurri-Mitanni mitolojisinde önemli bir tanrıçadır ve genellikle aşk, güzellik, bereket ve doğurganlık ile ilişkilendirilir. Arubani, özellikle Hurrilerin ve daha sonra Urartuların inanç sisteminde önemli bir yer tutmuştur. Arubani'nin adının geçtiği metinler, onu çok yönlü ve güçlü bir figür olarak tanımlar.\n\nArubani'nin rolü, tıpkı diğer antik tanrıçalar gibi, doğal döngülerle, tarımla ve insan yaşamıyla yakından ilişkilidir. Aşk, bereket ve doğurganlık temaları, Arubani'nin halk arasında saygı gören ve yaşamın temel yönlerini düzenleyen bir tanrıça olmasına neden olmuştur. Ayrıca, halkın sağlık ve gelişen toplumun devamı için önemli bir figürdür.\n\nArubani'nin, özellikle doğurganlık ve bereket ile ilişkilendirilmesi, toplumsal yaşamın bu denli hayati bir parçası olduğu dönemlerde, onun tapınılmasını da önemli kılmaktaydı. Aynı zamanda yazgıyı belirleme gücüne sahip olduğu da düşünülürdü, zira eski mitolojilerde tanrıçaların hayatın çeşitli yönlerini düzenleme ve insanları koruma gibi kutsal rolleri olduğu sıkça vurgulanır.\n\nArubani, yalnızca hurri toplumu ile değil, çevresindeki diğer kültürlerde de bilinen bir figürdür. O dönemdeki halklar, tanrıçalarına tapınırken, aynı zamanda kadınların toplumsal statüsünü ve onların doğurganlık güçlerini de yücelttikleri için Arubani'nin kültü, büyük bir toplumsal anlam taşımıştır.\n\nBugün, Arubani'nin mitolojik figürü, özellikle Anadolu ve Mezopotamya'nın eski inançları ve tanrıça figürleri hakkında araştırmalar yapan kişiler için önemli bir araştırma konusu olmuştur."
+            },
+            en: {
+                title: "Eastern Anatolia - Anatolian Mythology Map",
+                regionTitle: "EASTERN ANATOLIA REGION",
+                backToMenu: "Back to Main Menu",
+                menu: {
+                    home: "Home",
+                    about: "Our Team"
+                },
+                videoNotSupported: "Your browser does not support the video tag.",
+                goddessName: "Arubani",
+                goddessDescription: "Arubani is a prominent goddess in ancient Hurrian-Mitanni mythology and is closely associated with love, beauty, fertility, and abundance. She held an important place in the belief systems of the Hurrians and later the Urartians. Texts that mention Arubani describe her as a powerful and multifaceted figure.\n\nHer role, much like other ancient goddesses, was deeply connected to natural cycles, agriculture, and human life. Themes of love, fertility, and abundance made Arubani a highly respected deity among the people—one who governed essential aspects of existence. She was also seen as a guardian of health and a key figure in the continuation and prosperity of society.\n\nArubani's association with fertility and abundance made her worship especially vital in a time when community survival depended heavily on natural resources and successful reproduction. It was also believed that she had the power to determine fate, as goddesses in ancient mythologies were often portrayed as regulating various dimensions of life and offering divine protection.\n\nArubani was known not only among the Hurrians but also in surrounding cultures. In ancient societies where people worshipped goddesses, they also honored women's social status and reproductive powers. For this reason, the cult of Arubani carried significant cultural meaning.\n\nToday, Arubani remains an important subject of study for those researching the ancient religions of Anatolia and Mesopotamia and the roles of goddess figures in early belief systems."
+            },
+            de: {
+                title: "Ostanatolien - Anatolische Mythologie Karte",
+                regionTitle: "OSTANATOLIEN REGION",
+                backToMenu: "Zurück zum Hauptmenü",
+                menu: {
+                    home: "Startseite",
+                    about: "Unser Team"
+                },
+                videoNotSupported: "Ihr Browser unterstützt das Video-Tag nicht.",
+                goddessName: "Arubani",
+                goddessDescription: "Arubani ist eine bedeutende Göttin in der alten hurritisch-mitannischen Mythologie und wird meist mit Liebe, Schönheit, Fruchtbarkeit und Geburt in Verbindung gebracht. Sie spielte eine zentrale Rolle im Glaubenssystem der Hurriter und später auch der Urartäer. In überlieferten Texten wird sie als vielschichtige und kraftvolle Figur beschrieben.\n\nWie viele andere Göttinnen des Altertums steht Arubani in enger Beziehung zu Naturzyklen, Landwirtschaft und menschlichem Leben. Themen wie Liebe, Fruchtbarkeit und Fortpflanzung machten sie zu einer hochverehrten Figur, die über das Wohlergehen des Volkes wachte. Sie war auch eine wichtige Schutzgöttin für Gesundheit und das Weiterbestehen der Gesellschaft.\n\nIhre Verbindung zur Fruchtbarkeit war in einer Zeit, in der das Überleben stark von Landwirtschaft und Familienstruktur abhing, von größter Bedeutung. Es wurde sogar geglaubt, dass sie die Macht habe, das Schicksal zu lenken. In alten Mythologien hatten Göttinnen häufig die Aufgabe, das Leben zu ordnen und zu schützen.\n\nArubani war nicht nur den Hurritern bekannt – auch andere Kulturen in der Region verehrten sie. Ihre Anbetung war Ausdruck der gesellschaftlichen Wertschätzung für Frauen, insbesondere in Bezug auf deren Rolle als Lebensspenderinnen. Arubani ist heute ein zentrales Thema für Forschungen über die alten Göttinnenkulte Anatoliens und Mesopotamiens."
+            },
+            bs: {
+                title: "Istočna Anadolija - Karta Anadolske Mitologije",
+                regionTitle: "ISTOČNA ANADOLIJA REGIJA",
+                backToMenu: "Povratak na Glavni Meni",
+                menu: {
+                    home: "Početna",
+                    about: "Naš Tim"
+                },
+                videoNotSupported: "Vaš pretraživač ne podržava video oznaku.",
+                goddessName: "Arubani",
+                goddessDescription: "Arubani je bila značajna božica u drevnoj huritskoj i mitanskoj mitologiji, usko povezana s ljubavlju, ljepotom, plodnošću i obiljem. Imala je važnu ulogu u vjerovanjima Hurita, a kasnije i Urarta. Tekstovi koji spominju Arubani opisuju je kao moćnu i višeslojnu figuru.\n\nNjezina uloga, kao i drugih drevnih božica, bila je duboko povezana s prirodnim ciklusima, poljoprivredom i ljudskim životom. Tematski, ljubav, plodnost i obilje učinili su Arubani vrlo poštovanom božicom među ljudima, onom koja upravlja ključnim aspektima postojanja. Također je bila viđena kao čuvarica zdravlja i ključna figura u nastavku i prosperitetu društva.\n\nPovezanost Arubani s plodnošću i obiljem činila je njezino obožavanje posebno važnim u vremenu kada je opstanak zajednice uvelike ovisio o prirodnim resursima i uspješnoj reprodukciji. Također se vjerovalo da ima moć određivanja sudbine, jer su božice u drevnim mitologijama često bile prikazane kao regulatori različitih dimenzija života i pružateljice božanske zaštite.\n\nArubani je bila poznata ne samo među Huritima, već i u okolnim kulturama. U drevnim društvima gdje su ljudi obožavali božice, također su poštovali društveni status žena i njihove reproduktivne moći. Iz tog razloga, kult Arubani nosio je značajno kulturno značenje.\n\nDanas, Arubani ostaje važna tema proučavanja za one koji istražuju drevne religije Anadolije i Mezopotamije te uloge božica u ranijim vjerovanjima."
+            },
+            es: {
+                title: "Anatolia Oriental - Mapa de Mitología de Anatolia",
+                regionTitle: "REGIÓN DE ANATOLIA ORIENTAL",
+                backToMenu: "Volver al Menú Principal",
+                menu: {
+                    home: "Inicio",
+                    about: "Nuestro Equipo"
+                },
+                videoNotSupported: "Tu navegador no soporta la etiqueta de video.",
+                goddessName: "Arubani",
+                goddessDescription: "Arubani es una diosa importante en la mitología Hurriana-Mitanni, asociada con el amor, la belleza, la fertilidad y la procreación. Arubani tiene una posición prominente en las creencias de los Hurrios y más tarde en los Urartianos.\n\nSe le relaciona con los ciclos naturales, la agricultura y la vida humana. Su adoración se debe a su poder sobre la fertilidad y la prosperidad, temas vitales para la sociedad de la época.\n\nArubani también es considerada una figura protectora y un símbolo del papel fundamental de las mujeres en la creación y el mantenimiento de la vida. Su culto tiene un gran valor social, ya que en esas épocas la fertilidad era vista como un pilar de la vida comunitaria."
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Sayfa başlığını güncelle
+            document.title = translations[lang].title;
+            
+            // Bölge başlığını güncelle
+            document.querySelector('.ic_anadolu_bolgesi').textContent = translations[lang].regionTitle;
+            
+            // Tanrıça açıklamasını güncelle
+            document.querySelector('.kybele_aciklama').textContent = translations[lang].goddessDescription;
+            
+            // Ana menü butonunu güncelle
+            document.getElementById('backToMenuBtn').textContent = translations[lang].backToMenu;
+            
+            // Hamburger menü öğelerini güncelle
+            document.getElementById('menuHome').textContent = translations[lang].menu.home;
+            document.getElementById('menuAbout').textContent = translations[lang].menu.about;
+            
+            // Video destek mesajlarını güncelle
+            const videoElements = document.querySelectorAll('video');
+            videoElements.forEach(video => {
+                video.querySelector('source').nextSibling.textContent = translations[lang].videoNotSupported;
+            });
+
+            // Tanrıça ismini güncelle
+            const goddessName = translations[lang].goddessName;
+            const firstLetter = document.querySelector('tspan[font-family="Edwardian Script ITC"]');
+            const restOfName = document.querySelector('tspan[font-family="Book Antiqua"]');
+            
+            if (firstLetter && restOfName) {
+                firstLetter.textContent = goddessName[0];
+                restOfName.textContent = goddessName.slice(1);
+            }
+            
+            // Dil tercihini localStorage'a kaydet
+            localStorage.setItem('selectedLanguage', lang);
+        }
+
+        // Sayfa yüklendiğinde son seçilen dili veya varsayılan dili ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
+            document.getElementById('languageSelect').value = savedLanguage;
+            changeLanguage(savedLanguage);
+        });
+
+        // Hamburger menü açma/kapama
+        const menuBar = document.getElementById('menuBar');
+        const sideMenu = document.getElementById('sideMenu');
+        menuBar.addEventListener('click', function() {
+            sideMenu.classList.toggle('open');
+            menuBar.classList.toggle('open');
+        });
+
+        const backToMenuBtn = document.getElementById('backToMenuBtn');
+        const hoverSound = document.getElementById('hoverSound');
+        const clickSound = document.getElementById('clickSound');
+
+        backToMenuBtn.addEventListener('mouseenter', () => {
+            hoverSound.currentTime = 0;
+            hoverSound.play();
+        });
+
+        backToMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            clickSound.currentTime = 0;
+            clickSound.play();
+            // Sesin süresi kadar bekle, sonra yönlendir
+            const delay = (clickSound.duration && !isNaN(clickSound.duration)) ? clickSound.duration * 1000 : 400;
+            setTimeout(() => {
+                window.location.href = backToMenuBtn.href;
+            }, delay);
+        });
+    </script>
+</body>
+</html> 

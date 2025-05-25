@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ekibimiz - Anadolu Mitoloji Haritası</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* PSD and Texture styles */
+    .psd {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 19;
+      pointer-events: none;
+      background-image: url("assets/your-psd-export.png");
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: lighten;
+      opacity: 0.8;
+    }
+
+    .Textura_linda {
+      background-image: url("assets/Textura linda.png");
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 18;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+      mix-blend-mode: lighten;
+      opacity: 0.6;
+    }
+
+    .team-title {
+      font-family: 'Meddon', cursive;
+      font-size: 8vw;
+      color: #f5f3e7;
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 1);
+      margin-bottom: 40px;
+      margin-top: 0;
+      letter-spacing: 2px;
+      mix-blend-mode: soft-light;
+    }
+
+    /* Dil seçici stilleri */
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(139, 111, 71, 0.30);
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border: 1px solid rgba(139, 111, 71, 0.30);
+      font-family: 'Cormorant', serif;
+    }
+
+    .language-selector select {
+      padding: 5px 10px;
+      border: 1px solid rgba(139, 111, 71, 0.30);
+      border-radius: 3px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: rgba(139, 111, 71, 0.30);
+      color: #fff;
+      transition: all 0.3s ease;
+      font-family: 'Cormorant', serif;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 5px center;
+      background-size: 20px;
+      padding-right: 30px;
+    }
+
+    .language-selector select:hover {
+      border-color: #6d5839;
+      background-color: rgba(122, 98, 64, 0.30);
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      border-color: #6d5839;
+      box-shadow: 0 0 5px rgba(139, 111, 71, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- Dil Seçici -->
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="tr">Türkçe</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+      <option value="bs">Bosanski</option>
+      <option value="es">Español</option>
+    </select>
+  </div>
+
+  <!-- Video Arka Planı -->
+  <video id="background-video" autoplay loop muted>
+    <source src="video/backgroundVideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- PSD ve Texture Overlay'leri -->
+  <div class="psd"></div>
+  <div class="Textura_linda"></div>
+
+  <!-- Menü Barı -->
+  <div class="menu-bar" id="menuBar">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- Yan Menü -->
+  <nav class="side-menu" id="sideMenu">
+    <a href="index.html">Ana Sayfa</a>
+    <a href="about.html">Ekibimiz</a>
+  </nav>
+
+  <!-- Sayfa İçeriği -->
+  <div class="content" id="mainContent">
+    <div class="team-section">
+      <h1 class="team-title" id="teamTitle">Ekibimiz</h1>
+      <div class="team-members">
+        <div class="team-member">
+          <div class="team-icon">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <circle cx="12" cy="8" r="4" fill="white"/>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+            </svg>
+          </div>
+          <div class="team-name">Rabia Nur Yılmaz</div>
+          <div class="team-role" id="projectManager">Proje Yöneticisi</div>
+        </div>
+        <div class="team-member">
+          <div class="team-icon">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <circle cx="12" cy="8" r="4" fill="white"/>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+            </svg>
+          </div>
+          <div class="team-name">Sonnur Ocaklı</div>
+          <div class="team-role" id="localizationEngineer">Yerelleştirme Uzmanı</div>
+        </div>
+        <div class="team-member">
+          <div class="team-icon">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <circle cx="12" cy="8" r="4" fill="white"/>
+              <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+            </svg>
+          </div>
+          <div class="team-name">Sudenaz Turan</div>
+          <div class="team-role" id="webDeveloper">Web Tasarımcısı ve Geliştirici</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Çeviriler
+    const translations = {
+      tr: {
+        title: "Ekibimiz - Anadolu Mitoloji Haritası",
+        menu: {
+          home: "Ana Sayfa",
+          about: "Ekibimiz"
+        },
+        teamTitle: "Ekibimiz",
+        roles: {
+          projectManager: "Proje Yöneticisi",
+          localizationEngineer: "Yerelleştirme Uzmanı",
+          webDeveloper: "Web Tasarımcısı ve Geliştirici"
+        }
+      },
+      en: {
+        title: "Our Team - Anatolian Mythology Map",
+        menu: {
+          home: "Home",
+          about: "Our Team"
+        },
+        teamTitle: "Our Team",
+        roles: {
+          projectManager: "Project Manager",
+          localizationEngineer: "Localization Engineer",
+          webDeveloper: "Web Designer and Developer"
+        }
+      },
+      de: {
+        title: "Unser Team - Anatolische Mythologie Karte",
+        menu: {
+          home: "Startseite",
+          about: "Unser Team"
+        },
+        teamTitle: "Unser Team",
+        roles: {
+          projectManager: "Projektmanager",
+          localizationEngineer: "Lokalisierungsingenieurin",
+          webDeveloper: "Webdesigner und Entwickler"
+        }
+      },
+      bs: {
+        title: "Naš Tim - Karta Anadolske Mitologije",
+        menu: {
+          home: "Početna",
+          about: "Naš Tim"
+        },
+        teamTitle: "Naš Tim",
+        roles: {
+          projectManager: "Menadžer Projekta",
+          localizationEngineer: "Stručnjak za Lokalizaciju",
+          webDeveloper: "Web Dizajner i Programer"
+        }
+      },
+      es: {
+        title: "Nuestro Equipo - Mapa de Mitología de Anatolia",
+        menu: {
+          home: "Inicio",
+          about: "Nuestro Equipo"
+        },
+        teamTitle: "Nuestro Equipo",
+        roles: {
+          projectManager: "Gerente de Proyecto",
+          localizationEngineer: "Inžinjerka lokalizacije",
+          webDeveloper: "Diseñador y Desarrollador Web"
+        }
+      }
+    };
+
+    // Dil değiştirme fonksiyonu
+    function changeLanguage(lang) {
+      // Sayfa başlığını güncelle
+      document.title = translations[lang].title;
+      
+      // Menü linklerini güncelle
+      const menuLinks = document.querySelectorAll('.side-menu a');
+      menuLinks[0].textContent = translations[lang].menu.home;
+      menuLinks[1].textContent = translations[lang].menu.about;
+      
+      // Ekip başlığını güncelle
+      document.getElementById('teamTitle').textContent = translations[lang].teamTitle;
+      
+      // Rolleri güncelle
+      document.getElementById('projectManager').textContent = translations[lang].roles.projectManager;
+      document.getElementById('localizationEngineer').textContent = translations[lang].roles.localizationEngineer;
+      document.getElementById('webDeveloper').textContent = translations[lang].roles.webDeveloper;
+
+      // Dil tercihini localStorage'a kaydet
+      localStorage.setItem('selectedLanguage', lang);
+    }
+
+    // Sayfa yüklendiğinde son seçilen dili veya varsayılan dili ayarla
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
+      document.getElementById('languageSelect').value = savedLanguage;
+      changeLanguage(savedLanguage);
+    });
+
+    // Hamburger menü açma/kapama
+    const menuBar = document.getElementById('menuBar');
+    const sideMenu = document.getElementById('sideMenu');
+    menuBar.addEventListener('click', function() {
+      sideMenu.classList.toggle('open');
+      menuBar.classList.toggle('open');
+    });
+
+    document.getElementById('BÖLGE-ID').addEventListener('click', function(e) {
+      playSelectSound();
+      setTimeout(() => {
+        window.location.href = 'BÖLGE.html';
+      }, 300);
+    });
+  </script>
+</body>
+</html>
